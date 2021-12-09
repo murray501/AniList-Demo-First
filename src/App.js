@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { GraphQLClient } from "graphql-request";
+
+const axios = require('axios');
 
 const query = `
 {
@@ -16,26 +17,33 @@ const query = `
 }
 `;
 
-const client = new GraphQLClient(
-  "https://graphql.anilist.co"
-);
+const url = 'https://graphql.anilist.co';
+
+function request() {
+  return axios({
+    url: url,
+    method: 'post',
+    data: {
+      query: query
+    }
+  });
+}
 
 function App() {
   const [Data, setData] = useState();
 
   useEffect(() => {
-    client
-      .request(query)
-      .then(setData)
+      request()
+      .then(result => setData(result.data.data))
       .catch(console.error);
 
-  }, [client, query])
+  }, [])
 
   if (!Data) return <p>loading...</p>
 
   return (
     <>
-       <List data={Data.Page.media} renderItem={Details} renderEmpty={<p>Nothing to render.</p>} /> 
+      <List data={Data.Page.media} renderItem={Details} renderEmpty={<p>Nothing to render.</p>} /> 
     </>
   );
 }
@@ -64,6 +72,5 @@ function List({ data, renderItem, renderEmpty}) {
   </ul>
   );
 }
-
 
 export default App;
