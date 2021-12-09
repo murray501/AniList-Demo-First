@@ -1,8 +1,8 @@
 import React from "react";
 import {Routes, Route} from "react-router-dom";
+import PageList from "./pages/list";
 import {
   Home,
-  List,
   Other,
   Whoops404
 } from "./pages";
@@ -12,7 +12,7 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/list" element={<List />} />
+        <Route path="/list" element={<PageList />} />
         <Route path="/other" element={<Other />} />
         <Route path="*" element={<Whoops404 />} />
       </Routes>
