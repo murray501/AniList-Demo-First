@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-const axios = require('axios');
+import axios from "axios";
 
 const query = `
 {
@@ -20,13 +19,14 @@ const query = `
 const url = 'https://graphql.anilist.co';
 
 function request() {
-  return axios({
+  const options = {
     url: url,
     method: 'post',
     data: {
       query: query
     }
-  });
+  };
+  return axios.request(options);
 }
 
 export default function PageList() {
