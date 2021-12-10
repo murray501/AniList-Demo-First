@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
+const saveJSON = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+
 const query = `
 {
   Page {
@@ -30,20 +33,27 @@ function request() {
 }
 
 export default function PageList() {
-  const [Data, setData] = useState();
+  const [data, setData] = useState(loadJSON(query));
 
   useEffect(() => {
+    if (!data) return;
+    saveJSON(query, data);
+  }, [data]);
+
+  useEffect(() => {
+      if (data) return;
+
       request()
-      .then(result => setData(result.data.data))
-      .catch(console.error);
+        .then(result => setData(result.data.data.Page.media))
+        .catch(console.error);
 
   }, [])
 
-  if (!Data) return <p>loading...</p>
+  if (!data) return <p>loading...</p>
 
   return (
     <>
-      <List data={Data.Page.media} renderItem={Details} renderEmpty={<p>Nothing to render.</p>} /> 
+      <List data={data} renderItem={Details} renderEmpty={<p>Nothing to render.</p>} /> 
     </>
   );
 }
