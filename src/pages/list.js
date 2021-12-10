@@ -35,9 +35,14 @@ function request() {
 
 export default function PageList() {
   const [data, setData] = useState(loadJSON(query));
+  const [select, setSelect] = useState(-1);
 
-  const renderItem = (index, key) => {
-    return <div key={key}>{index+1} {data[index].title.english} - {data[index].title.native}</div>;
+  function renderItem(index, key) {
+    return <div key={key} onClick={() => onClick(index)}>{index + 1} {data[index].title.english} - {data[index].title.native}</div>;
+  }
+
+  const onClick = (index) => {
+    setSelect(index);
   }
 
   useEffect(() => {
@@ -67,6 +72,21 @@ export default function PageList() {
         type='uniform'
       />
     </div> 
+    <h1>Detail</h1>
+    <RenderDetail index={select} data={data}/>
     </>
   );
 }
+
+function RenderDetail({index, data}) {
+  if (index === -1) return <p>Nothing is selected.</p> 
+  return (
+    <div>
+      <p>URL: {data[index].siteUrl}</p>
+      <p>Title(English): {data[index].title.english}</p>
+      <p>TitleNative): {data[index].title.native}</p>
+      <p>Description: {data[index].description}</p>  
+    </div>
+  );
+}
+
