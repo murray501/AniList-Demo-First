@@ -12,16 +12,27 @@ code {
       monospace;
 }
 
-.listitem:hover {
-  background-color: yellow;
-}
-
 .left {
-  background-color: #eee;
-  width: 400
+  width: 400px;
+  margin: 10px;
 }
 
 .right {
-  background-color: beige;
-  max-width: calc(100% - 400)
+  flex: 1;
+  padding: 0 50px;
+  overflow: 'auto';
+}
+
+.listitem {
+  background: linear-gradient(#fff, #eee);
+  line-height: 30px;
+  padding: 0 10px;
+}
+
+.even {
+  background: linear-gradient(#ddd, #ccc);
+}
+
+.listitem:hover {
+  color: blue;
 }

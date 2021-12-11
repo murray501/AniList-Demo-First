@@ -40,7 +40,7 @@ export default function PageList() {
 
   function renderItem(index, key) {
     let title = data[index].title.english ? data[index].title.english : data[index].title.native;
-    return <div key={key} class="listitem" onClick={() => onClick(index)}>{index + 1} {title}</div>;
+    return <div key={key} class={"listitem" + (index % 2 ? '' : ' even')} onClick={() => onClick(index)}>{index + 1} {title}</div>;
   }
 
   const onClick = (index) => {
@@ -67,27 +67,26 @@ export default function PageList() {
 
   return (
     <div style={{display: "flex"}}>
-    <div class="left" style={{overflow: 'auto', maxHeight: 400}}>
-      <ReactList
-        itemRenderer={renderItem}
-        length={data.length}
-        type='uniform'
-      />
-    </div> 
-    <RenderDetail index={select} data={data}/>
+      <div class="left" style={{overflow: 'auto', maxHeight: 400}}>
+        <ReactList
+          itemRenderer={renderItem}
+          length={data.length}
+          type='uniform'
+        />
+      </div> 
+      <RenderDetail index={select} data={data}/>
     </div>
   );
 }
 
 function RenderDetail({index, data}) {
-  if (index === -1) return <p>Nothing is selected.</p>   
+  if (index === -1) return null;
   return (
     <div class="right">
-      <h1>Detail</h1>
-      <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>
       <p>Title(English): {data[index].title.english}</p>
       <p>Title(Native): {data[index].title.native}</p>
       <h>Description:</h>
+      <p>{data[index].description}</p>
       <p>
       </p>  
     </div>
