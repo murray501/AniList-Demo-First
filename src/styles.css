@@ -12,12 +12,12 @@ code {
       monospace;
 }
 
-.left {
+#left {
   width: 400px;
   margin: 10px;
 }
 
-.right {
+#right {
   flex: 1;
   padding: 0 50px;
   overflow: 'auto';
@@ -36,3 +36,4 @@ code {
 .listitem:hover {
   color: blue;
 }
+
