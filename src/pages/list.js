@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactList from "react-list";
+import { Outlet, useNavigate } from "react-router-dom";
 import "../styles.css";
 
 const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
@@ -38,8 +39,8 @@ function request() {
 }
 
 export default function PageList() {
-  const [data, setData] = useState(loadJSON(query));
-  const [select, setSelect] = useState(-1);
+  const [data, setData] = useState(loadJSON('basic-query'));
+  const [select, setSelect] = useState(0);
 
   function renderItem(index, key) {
     let title = data[index].title.english ? data[index].title.english : data[index].title.native;
@@ -52,7 +53,7 @@ export default function PageList() {
 
   useEffect(() => {
     if (!data) return;
-    saveJSON(query, data);
+    saveJSON('basic-query', data);
     console.log('data length=' + data.length);
   }, [data]);
 
@@ -69,6 +70,7 @@ export default function PageList() {
   if (!data.length) return <p>Nothing to render.</p>
 
   return (
+    <>
     <div style={{display: "flex"}}>
       <div id="left" style={{overflow: 'auto', maxHeight: 400}}>
         <ReactList
@@ -79,11 +81,14 @@ export default function PageList() {
       </div> 
       <RenderDetail index={select} data={data}/>
     </div>
+    <Outlet />
+    </>
   );
 }
 
 function RenderDetail({index, data}) {
-  if (index === -1) return null;
+  let navigate = useNavigate();
+
   return (
     <>
     <img src={data[index].coverImage.large} width="200" height="300"/>
@@ -91,6 +96,9 @@ function RenderDetail({index, data}) {
       <p>Title(English): {data[index].title.english}</p>
       <p>Title(Native): {data[index].title.native}</p>
       <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>
+      <button onClick={() => navigate(`/list/description/${index}`)}>
+        Description
+      </button>
     </div>
     </>
   );

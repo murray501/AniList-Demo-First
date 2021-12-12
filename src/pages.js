@@ -1,7 +1,6 @@
-import React from "react";
-import {
-    Link,
-} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import parse from "html-react-parser";
 
 export function Home() {
     return (
@@ -27,6 +26,24 @@ export function Whoops404() {
     return (
         <div>
             <h1>Resource not found</h1>
+        </div>
+    )
+}
+
+const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
+
+export function Description() {
+    let { id } = useParams();
+    let index = parseInt(id);
+    const [data, setData] = useState(loadJSON('basic-query'));
+
+    if (!data) return <p>no data</p>
+    if (index > data.length) return <p>can not find description.</p>
+    
+    return (
+        <div style={{margin: 20}}>
+            <h2>Description</h2>
+            <p>{parse(data[index].description)}</p>
         </div>
     )
 }
