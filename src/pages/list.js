@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactList from "react-list";
 import "../styles.css";
-import Iframe from "react-iframe";
 
 const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
 const saveJSON = (key, data) => localStorage.setItem(key, JSON.stringify(data));
@@ -17,6 +16,9 @@ const query = `
         native
       }
       description
+      coverImage {
+        large
+      }
     }
   }
 }
@@ -38,7 +40,6 @@ function request() {
 export default function PageList() {
   const [data, setData] = useState(loadJSON(query));
   const [select, setSelect] = useState(-1);
-  const windowHeight = window.innerHeight;
 
   function renderItem(index, key) {
     let title = data[index].title.english ? data[index].title.english : data[index].title.native;
@@ -84,15 +85,15 @@ export default function PageList() {
 function RenderDetail({index, data}) {
   if (index === -1) return null;
   return (
+    <>
+    <img src={data[index].coverImage.large}/>
     <div id="right">      
       <p>Title(English): {data[index].title.english}</p>
       <p>Title(Native): {data[index].title.native}</p>
-      <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>
-      <h>Description:</h>
+      <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>       
       <p>{data[index].description}</p>
-      <p>
-      </p>  
     </div>
+    </>
   );
 }
 
