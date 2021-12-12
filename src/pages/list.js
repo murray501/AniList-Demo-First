@@ -86,12 +86,11 @@ function RenderDetail({index, data}) {
   if (index === -1) return null;
   return (
     <>
-    <img src={data[index].coverImage.large}/>
+    <img src={data[index].coverImage.large} width="200" height="300"/>
     <div id="right">      
       <p>Title(English): {data[index].title.english}</p>
       <p>Title(Native): {data[index].title.native}</p>
-      <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>       
-      <p>{data[index].description}</p>
+      <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>
     </div>
     </>
   );
