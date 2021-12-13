@@ -38,4 +38,16 @@ code {
   color: blue;
 }
 
+#coverImage {
+  margin-top: 10px;
+}
 
+#sort {
+  width: 200px;
+  margin: 10px;
+  border: 2px solid #000000;
+}
+
+#sort-status {
+  margin-left: 10px;
+}
