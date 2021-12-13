@@ -11,6 +11,7 @@ const query = `
 {
   Page {
     media {
+      id
       siteUrl
       title {
         english
@@ -20,6 +21,8 @@ const query = `
       coverImage {
         large
       }
+      popularity
+      trending
     }
   }
 }
@@ -44,7 +47,7 @@ export default function PageList() {
 
   function renderItem(index, key) {
     let title = data[index].title.english ? data[index].title.english : data[index].title.native;
-    return <div key={key} class={"listitem" + (index % 2 ? '' : ' even')} onClick={() => onClick(index)}>{index + 1} {title}</div>;
+    return <div key={key} class={"listitem" + (index % 2 ? '' : ' even')} onClick={() => onClick(index)}>{title}</div>;
   }
 
   const onClick = (index) => {
@@ -91,12 +94,17 @@ function RenderDetail({index, data}) {
 
   return (
     <>
-    <img src={data[index].coverImage.large} width="200" height="300"/>
-    <div id="right">      
+    <div class="coverImage">
+      <img src={data[index].coverImage.large} width="200" height="300"/>
+    </div>
+    <div id="right"> 
+      <p>ID: {data[index].id}</p>     
       <p>Title(English): {data[index].title.english}</p>
       <p>Title(Native): {data[index].title.native}</p>
       <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>
-      <button onClick={() => navigate(`/list/description/${index}`)}>
+      <p>Popularity: {data[index].popularity}</p>
+      <p>Trending: {data[index].trending}</p>
+      <button onClick={() => navigate(`/list/description/${data[index].id}`)}>
         Description
       </button>
     </div>

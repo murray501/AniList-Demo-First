@@ -15,6 +15,7 @@ code {
 #left {
   width: 400px;
   margin: 10px;
+  border: 2px solid #000000;
 }
 
 #right {
@@ -36,4 +37,5 @@ code {
 .listitem:hover {
   color: blue;
 }
+
 

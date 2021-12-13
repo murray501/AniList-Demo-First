@@ -38,12 +38,15 @@ export function Description() {
     const [data, setData] = useState(loadJSON('basic-query'));
 
     if (!data) return <p>no data</p>
-    if (index > data.length) return <p>can not find description.</p>
     
+    const find = data.find(x => x.id === index)
+
+    if (!find) return <p> data not found id = {id} </p>
+
     return (
         <div style={{margin: 20}}>
             <h2>Description</h2>
-            <p>{parse(data[index].description)}</p>
+            <p>{parse(find.description)}</p>
         </div>
     )
 }
