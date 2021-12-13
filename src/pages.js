@@ -43,9 +43,11 @@ export function Description() {
 
     if (!find) return <p> data not found id = {id} </p>
 
+    const title = find.title.english ? find.title.english : find.title.native;
+
     return (
         <div style={{margin: 20}}>
-            <h2>Description</h2>
+            <h3>{title}</h3>
             <p>{parse(find.description)}</p>
         </div>
     )
