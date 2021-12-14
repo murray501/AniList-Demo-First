@@ -51,3 +51,13 @@ code {
 #sort-status {
   margin-left: 10px;
 }
+
+.button {
+  margin: 0 10px;
+}
+
+.page {
+  border: 2px solid #000000;
+  margin: 10px;
+  padding: 5px 10px;
+}

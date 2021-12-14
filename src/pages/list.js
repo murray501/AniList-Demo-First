@@ -58,7 +58,7 @@ export default function PageList() {
     let title = data[index].title.english ? data[index].title.english : data[index].title.native;
     
     return <div key={key} class={"listitem" + (index % 2 ? '' : ' even')} 
-    onClick={() => setSelect(index)}>{title} (p:{data[index].popularity},t:{data[index].trending})</div>;
+    onClick={() => setSelect(index)}>{title}</div>;
   }
 
   function SortBox() {
@@ -94,9 +94,14 @@ export default function PageList() {
         <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>
         <p>Popularity: {data[index].popularity}</p>
         <p>Trending: {data[index].trending}</p>
-        <button onClick={() => navigate(`/list/description/${data[index].id}`)}>
-          Description
-        </button>
+        <div style={{display: "flex"}}>
+          <button class="button" onClick={() => navigate(`/list/description/${data[index].id}`)}>
+            Description
+          </button>
+          <button class="button" onClick={() => navigate(`/list/character/${data[index].id}`)}>
+            Character
+          </button>
+        </div>
       </div>
       </>
     );

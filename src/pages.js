@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
+import "./styles.css";
 
 export function Home() {
     return (
@@ -46,7 +47,7 @@ export function Description() {
     const title = find.title.english ? find.title.english : find.title.native;
 
     return (
-        <div style={{margin: 20}}>
+        <div class="page">
             <h3>{title}</h3>
             <p>{parse(find.description)}</p>
         </div>
