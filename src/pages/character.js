@@ -45,15 +45,11 @@ function request(id) {
 
 export default function Character() {
   let { id } = useParams();
-  console.log("called id = " + id);
   let index = parseInt(id);
   
   const [basicData, setBasicData] = useState(loadJSON('basic-query'));
   const [queryData, setQueryData] = useState(null);
   const [select, setSelect] = useState(0);
-  
-  console.log("index = " + index);
-  console.log(JSON.stringify(queryData))
   
   function Title() {
     if (!basicData) return <p>no data</p>
@@ -82,14 +78,21 @@ export default function Character() {
 
   useEffect(() => {
     if (queryData && queryData.id === id) return;
+
+    let data = loadJSON('character' + id);
+    if (data) {
+      setQueryData(data);
+      return;
+    }
+
     request(id)
       .then(result => {
-        const content = {id: id, data: result.data.data.Media.characters.nodes};
-        setQueryData(content)
-        saveJSON('character' + id, content)
-      })
-      .catch(console.error);
-  }, [id, queryData])
+          const content = {id: id, data: result.data.data.Media.characters.nodes};
+          setQueryData(content)
+          saveJSON('character' + id, content)
+        })
+        .catch(console.error);
+  }, [id])
 
   if (!queryData) return <p>loading...</p>
 
