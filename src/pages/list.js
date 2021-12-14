@@ -118,6 +118,8 @@ export default function PageList() {
       let newData = [...data];
       setData(newData);      
     }
+
+    setSelect(0);
   }, [sortOption])
 
  

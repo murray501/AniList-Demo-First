@@ -28,6 +28,7 @@ function request(id) {
           gender
           age
           siteUrl
+          description
         }
       }
     }
@@ -68,13 +69,49 @@ export default function Character() {
     onClick={() => setSelect(index)}>{data[index].name.first} {data[index].name.last}</div>;
   }
 
+  function Description() {
+    if (!queryData) return;
+    if (queryData.id !== id) return(<div>loading...</div>);
+    let index = select;
+    let data = queryData.data;
+
+    if (data[index].description) {
+      return (
+        <div>
+          <p>Description:</p>
+          <p>{parse(data[index].description)}</p>
+        </div>
+      )
+    }
+    return null;
+  }
+
   function RenderDetail() {
     if (!queryData) return;
-    const data = queryData.data;
+    if (queryData.id !== id) return(<div>loading...</div>);
+    
+    let index = select;
+    let data = queryData.data;
     return (
-      <pre>{select}</pre>
-    )
+      <>
+      <div id="coverImage">
+        <img src={data[index].image.large} width="230" height="360"/>
+      </div>
+      <div id="right"> 
+        <p>ID: {data[index].id}</p>     
+        <p>Name: {data[index].name.first} {data[index].name.last}</p>
+        <p>Gender: {data[index].gender}</p>
+        <p>Age: {data[index].age}</p>
+        <p>URL: <a href={data[index].siteUrl}>{data[index].siteUrl}</a></p>
+        <Description />
+      </div>
+      </>
+    );
   }
+
+  useEffect(() => {
+    setSelect(0);
+  }, [id])
 
   useEffect(() => {
     if (queryData && queryData.id === id) return;
