@@ -8,10 +8,10 @@ import "../styles.css";
 const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
 const saveJSON = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
-const query = `
+const query = type => `
 {
   Page {
-    media {
+    media(sort: POPULARITY_DESC, type: ${type}) {
       id
       siteUrl
       title {
@@ -31,28 +31,34 @@ const query = `
 
 const url = 'https://graphql.anilist.co';
 
-function request() {
+function request(type) {
   const options = {
     url: url,
     method: 'post',
     data: {
-      query: query
+      query: query(type)
     }
   };
   return axios.request(options);
 }
 
 export default function PageList() {
-  const [data, setData] = useState(loadJSON('basic-query'));
-  const [select, setSelect] = useState(0);
-  const [sortOption, setSortOption] = useState(null);
-  
-  const navigate = useNavigate();
-
-  const options = [
+  const sort_options = [
     {value: 'popularity', label: 'popularity'},
     {value: 'trending', label: 'trending'}
   ]
+  
+  const media_options = [
+    {value: 'ANIME', label: 'Anime'},
+    {value: 'MANGA', label: 'Manga'}
+  ]
+
+  const [data, setData] = useState(loadJSON('basic-query-' + media_options[0].label));
+  const [select, setSelect] = useState(0);
+  const [sortOption, setSortOption] = useState(sort_options[0]);
+  const [mediaOption, setMediaOption] = useState(media_options[0]);
+  
+  const navigate = useNavigate();
 
   function renderItem(index, key) {
     let title = data[index].title.english ? data[index].title.english : data[index].title.native;
@@ -66,14 +72,22 @@ export default function PageList() {
       <div style={{display: "flex"}}>
         <div id="sort">
           <Select
+            defaultValue={mediaOption} 
+            options={media_options} 
+            onChange={setMediaOption}
+          />
+        </div>
+
+        <div id="sort">
+          <Select
             defaultValue={sortOption} 
-            options={options} 
+            options={sort_options} 
             onChange={setSortOption}
           />
         </div>
   
         <div id="sort-status">
-          {!sortOption ? <p> List is not sorted.</p> : <p>List is sorted by {sortOption.value}.</p>}
+          <p>{mediaOption.label}s are sorted by {sortOption.label}.</p>
         </div>
       </div>
     )
@@ -95,10 +109,10 @@ export default function PageList() {
         <p>Popularity: {data[index].popularity}</p>
         <p>Trending: {data[index].trending}</p>
         <div style={{display: "flex"}}>
-          <button class="button" onClick={() => navigate(`/list/description/${data[index].id}`)}>
+          <button class="button" onClick={() => navigate(`/description/${data[index].id}/${mediaOption.label}`)}>
             Description
           </button>
-          <button class="button" onClick={() => navigate(`/list/character/${data[index].id}`)}>
+          <button class="button" onClick={() => navigate(`/character/${data[index].id}/${mediaOption.label}`)}>
             Character
           </button>
         </div>
@@ -108,7 +122,8 @@ export default function PageList() {
   }
 
   useEffect(() => {
-    if (!sortOption) return;
+    if (!data) return;
+    console.log("begin to sort");
     if (sortOption.value === "popularity") {
       data.sort((a, b) => (a.popularity > b.popularity ? -1 : 1));
       let newData = [...data];
@@ -124,15 +139,22 @@ export default function PageList() {
 
  
   useEffect(() => {
-      if (data) return;
-      request()
+      const name = 'basic-query-' + mediaOption.label
+      let load = loadJSON(name);
+      if (load) {
+        setData(load);
+        return;
+      }
+
+      request(mediaOption.value)
         .then(result => {
-          setData(result.data.data.Page.media)
-          saveJSON('basic-query', result.data.data.Page.media)
+          let content = result.data.data.Page.media
+          setData(content)
+          saveJSON(name, content)
         })
         .catch(console.error);
 
-  }, [])
+  }, [mediaOption])
 
   if (!data) return <p>loading...</p>
   if (!data.length) return <p>Nothing to render.</p>

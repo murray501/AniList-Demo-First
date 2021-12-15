@@ -15,12 +15,10 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="list" element={<PageList />} >
-          <Route path="description/:id" element={<Description />} />
-          <Route path="character/:id" element={<Character />} />
+        <Route path="/" element={<PageList />} >
+          <Route path="description/:id/:type" element={<Description />} />
+          <Route path="character/:id/:type" element={<Character />} />
         </Route>  
-        <Route path="other" element={<Other />} />
         <Route path="*" element={<Whoops404 />} />
       </Routes>
     </div>

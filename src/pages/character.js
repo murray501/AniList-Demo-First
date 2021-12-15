@@ -15,7 +15,7 @@ function request(id) {
   const query =  id => `
   {
     Media(id: ${id}){
-      characters {
+      characters(sort: ROLE) {
         nodes {
           id
           name {
@@ -45,10 +45,10 @@ function request(id) {
 }
 
 export default function Character() {
-  let { id } = useParams();
+  let { id, type } = useParams();
   let index = parseInt(id);
-  
-  const [basicData, setBasicData] = useState(loadJSON('basic-query'));
+  let name = 'basic-query-' + type;
+  const [basicData, setBasicData] = useState(loadJSON(name));
   const [queryData, setQueryData] = useState(null);
   const [select, setSelect] = useState(0);
   

@@ -3,26 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import "./styles.css";
 
-export function Home() {
-    return (
-        <div>
-            <h1>[Home]</h1>
-            <nav>
-                <Link to="list">List</Link>
-                <Link to="other">Other</Link>
-            </nav>
-        </div>
-    );
-}
-
-export function Other() {
-    return (
-        <div>
-            <h1>[Other]</h1>
-        </div>
-    );
-}
-
 export function Whoops404() {
     return (
         <div>
@@ -34,9 +14,10 @@ export function Whoops404() {
 const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
 
 export function Description() {
-    let { id } = useParams();
+    let { id, type } = useParams();
     let index = parseInt(id);
-    const [data, setData] = useState(loadJSON('basic-query'));
+    let name = 'basic-query-' + type;
+    const [data, setData] = useState(loadJSON(name));
 
     if (!data) return <p>no data</p>
     
