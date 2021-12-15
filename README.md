@@ -10,5 +10,6 @@
 
 ## Implementation
 
-1. GraphQL. AniList API is used.  [https://anilist.gitbook.io/](https://anilist.gitbook.io/)
-3. 
+1. GraphQL. AniList API is used.  [https://anilist.gitbook.io/anilist-apiv2-docs/](https://anilist.gitbook.io/anilist-apiv2-docs/)
+2. React Router is used for pages.
+3. Data is saved on local storage.  
