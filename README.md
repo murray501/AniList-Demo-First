@@ -8,6 +8,15 @@
 2. npm start
 3. open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+## How to use?
+
+1. Select `Anime` or `Manga`. Data is fetched accordingly from Anilist.
+2. Select `Popularity` or `Trending`. Data is sorted accordingly.
+3. Click list item. Detail is shown on the right side.
+4. Click `Description` button. Its description is shown below.
+5. Click `Character` button. Its characters are shown below.
+6. Click list item on character page. Its character description is shown on the right side. 
+
 ## Implementation
 
 1. GraphQL. AniList API is used.  [https://anilist.gitbook.io/anilist-apiv2-docs/](https://anilist.gitbook.io/anilist-apiv2-docs/)
